@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Baca Suhu Perangkat</title>
+</head>
+<body>
+  <h1>Informasi Lokasi</h1>
+  <p id="locationInfo"></p>
+
+  <script>
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        function(position) {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          const temperature = position.coords.temperature; // Suhu tidak selalu didukung
+
+          const locationInfo = `Latitude: ${latitude}<br>Longitude: ${longitude}`;
+          
+          if (temperature) {
+            document.getElementById('locationInfo').innerHTML = `${locationInfo}<br>Temperature: ${temperature}°C`;
+          } else {
+            document.getElementById('locationInfo').innerHTML = locationInfo;
+          }
+        },
+        function(error) {
+          console.error(`Error getting location: ${error.message}`);
+          document.getElementById('locationInfo').innerHTML = 'Gagal mendapatkan lokasi.';
+        }
+      );
+    } else {
+      document.getElementById('locationInfo').innerHTML = 'Geolocation tidak didukung pada peramban ini.';
+    }
+  </script>
+</body>
+</html>
